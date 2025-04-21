@@ -1,7 +1,12 @@
+# This .spec config file tells Buildozer an app's requirements for being built.
+#
+# It largely follows the syntax of an .ini file.
+# See the end of the file for more details and warnings about common mistakes.
+
 [app]
 
 # (str) Title of your application
-title = Aso Stocks
+title = Aso stocks
 
 # (str) Package name
 package.name = asostocks
@@ -12,32 +17,32 @@ package.domain = org.aso
 # (str) Source code where the main.py live
 source.dir = .
 
-# (list) Source files to include (let empty to include all the files)
+# (list) Source files to include (leave empty to include all the files)
 source.include_exts = py,png,jpg,kv,atlas
 
 # (list) List of inclusions using pattern matching
-#source.include_patterns = assets/,images/.png
+#source.include_patterns = assets/*,images/*.png
 
-# (list) Source files to exclude (let empty to not exclude anything)
+# (list) Source files to exclude (leave empty to not exclude anything)
 #source.exclude_exts = spec
 
-# (list) List of directory to exclude (let empty to not exclude anything)
+# (list) List of directory to exclude (leave empty to not exclude anything)
 #source.exclude_dirs = tests, bin, venv
 
 # (list) List of exclusions using pattern matching
 # Do not prefix with './'
-#source.exclude_patterns = license,images//.jpg
+#source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
 version = 0.1
 
 # (str) Application versioning (method 2)
-# version.regex = _version_ = ['"](.*)['"]
+# version.regex = __version__ = ['"](.*)['"]
 # version.filename = %(source.dir)s/main.py
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3==3.7.6,hostpython3==3.7.6,kivy,pillow
+requirements = python3,kivy
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -53,7 +58,13 @@ requirements = python3==3.7.6,hostpython3==3.7.6,kivy,pillow
 # Valid options are: landscape, portrait, portrait-reverse or landscape-reverse
 orientation = portrait
 
-# (list) List of service to declare
+# (list) List of services to declare
+# This is currently only relevant to Android services.
+# Each service consists of a name (a valid Java class name, with the first letter capitalized)
+# followed by a colon, followed by the name of the Python script (.py file) that should be
+# launched. This is optionally followed by ":foreground" for foreground services or
+# ":foreground:sticky" for sticky foreground services. The default is a background service.
+# Bound services are not supported.
 #services = NAME:ENTRYPOINT_TO_PY,NAME2:ENTRYPOINT2_TO_PY
 
 #
@@ -61,13 +72,10 @@ orientation = portrait
 #
 
 #
-# author = Â© Copyright Info
-
-# change the major version of python used by the app
-osx.python_version = 3.7.6
+# author = © Copyright Info
 
 # Kivy version to use
-osx.kivy_version = 1.9.1
+osx.kivy_version = 2.2.0
 
 #
 # Android specific
@@ -94,7 +102,7 @@ fullscreen = 0
 #icon.adaptive_background.filename = %(source.dir)s/data/icon_bg.png
 
 # (list) Permissions
-# (See https://python-for-android.readthedocs.io/en/latest/buildoptions/#build-options-1 for all the supported syntaxes and properties)
+# (See https://python-for-android.readthedocs.io/en/latest/buildoptions.html for all the supported syntaxes and properties)
 #android.permissions = android.permission.INTERNET, (name=android.permission.WRITE_EXTERNAL_STORAGE;maxSdkVersion=18)
 
 # (list) features (adds uses-feature -tags to manifest)
@@ -115,9 +123,6 @@ fullscreen = 0
 # (int) Android NDK API to use. This is the minimum API your app will support, it should usually match android.minapi.
 #android.ndk_api = 21
 
-# (bool) Use --private data storage (True) or --dir public storage (False)
-#android.private_storage = True
-
 # (str) Android NDK directory (if empty, it will be automatically downloaded.)
 #android.ndk_path =
 
@@ -127,7 +132,7 @@ fullscreen = 0
 # (str) ANT directory (if empty, it will be automatically downloaded.)
 #android.ant_path =
 
-# (bool) If True, then skip trying to update the Android sdk
+# (bool) If True, then skip trying to update the Android SDK
 # This can be useful to avoid excess Internet downloads or save time
 # when an update is due and you just want to test/build your package
 # android.skip_update = False
@@ -136,7 +141,7 @@ fullscreen = 0
 # agreements. This is intended for automation only. If set to False,
 # the default, you will be shown the license when first running
 # buildozer.
-android.accept_sdk_license = True
+# android.accept_sdk_license = False
 
 # (str) Android entry point, default is ok for Kivy-based app
 #android.entrypoint = org.kivy.android.PythonActivity
@@ -162,6 +167,9 @@ android.accept_sdk_license = True
 
 # (list) Pattern to whitelist for the whole project
 #android.whitelist =
+
+# (bool) If True, your application will be listed as a home app (launcher app)
+# android.home_app = False
 
 # (str) Path to a custom whitelist file
 #android.whitelist_src =
@@ -215,11 +223,11 @@ android.accept_sdk_license = True
 
 # (list) Gradle repositories to add {can be necessary for some android.gradle_dependencies}
 # please enclose in double quotes 
-# e.g. android.gradle_repositories = "maven { url 'https://kotlin.bintray.com/ktor' }"
+# e.g. android.gradle_repositories = "maven { url 'https://repo.spring.io/release' }"
 #android.add_gradle_repositories =
 
-# (list) packaging options to add 
-# see https://google.github.io/android-gradle-dsl/current/com.android.build.gradle.internal.dsl.PackagingOptions.html
+# (list) packaging options to add
+# see https://developer.android.com/reference/tools/gradle-api/7.1/com/android/build/api/dsl/PackagingOptions
 # can be necessary to solve conflicts in gradle_dependencies
 # please enclose in double quotes 
 # e.g. android.add_packaging_options = "exclude 'META-INF/common.kotlin_module'", "exclude 'META-INF/*.kotlin_module'"
@@ -282,7 +290,7 @@ android.accept_sdk_license = True
 #android.copy_libs = 1
 
 # (list) The Android archs to build for, choices: armeabi-v7a, arm64-v8a, x86, x86_64
-# In past, was android.arch as we weren't supporting builds for multiple archs at the same time.
+# In past, was `android.arch` as we weren't supporting builds for multiple archs at the same time.
 android.archs = arm64-v8a, armeabi-v7a
 
 # (int) overrides automatic versionCode computation (used in build.gradle)
@@ -310,6 +318,12 @@ android.allow_backup = True
 # (str) The format used to package the app for debug mode (apk or aar).
 # android.debug_artifact = apk
 
+# (str) A display cutout is an area on some devices that extends into the display surface.
+# It allows for an edge-to-edge experience while providing space for important sensors on the front of the device.
+# Available options for Android API >= 28 are "default, shortEdges, never" and defaults to never.
+# Android documentation: https://developer.android.com/develop/ui/views/layout/display-cutout
+#android.display_cutout = never
+
 #
 # Python for android (p4a) specific
 #
@@ -326,7 +340,7 @@ android.allow_backup = True
 # (str) python-for-android specific commit to use, defaults to HEAD, must be within p4a.branch
 #p4a.commit = HEAD
 
-# (str) python-for-android git clone directory (if empty, it will be automatically cloned from github)
+# (str) python-for-android git clone directory
 #p4a.source_dir =
 
 # (str) The directory in which python-for-android should look for your own build recipes (if any)
@@ -336,6 +350,7 @@ android.allow_backup = True
 #p4a.hook =
 
 # (str) Bootstrap to use for android builds
+# Run "buildozer android p4a -- bootstraps" for a list of valid values.
 # p4a.bootstrap = sdl2
 
 # (int) port number to specify an explicit --port= p4a argument (eg for bootstrap flask)
@@ -368,7 +383,7 @@ ios.kivy_ios_branch = master
 #ios.ios_deploy_dir = ../ios_deploy
 # Or specify URL and branch
 ios.ios_deploy_url = https://github.com/phonegap/ios-deploy
-ios.ios_deploy_branch = 1.10.0
+ios.ios_deploy_branch = 1.12.2
 
 # (bool) Whether or not to sign the code
 ios.codesign.allowed = false
@@ -387,15 +402,15 @@ ios.codesign.allowed = false
 #ios.codesign.development_team.release = <hexstring>
 
 # (str) URL pointing to .ipa file to be installed
-# This option should be defined along with display_image_url and full_size_image_url options.
+# This option should be defined along with `display_image_url` and `full_size_image_url` options.
 #ios.manifest.app_url =
 
 # (str) URL pointing to an icon (57x57px) to be displayed during download
-# This option should be defined along with app_url and full_size_image_url options.
+# This option should be defined along with `app_url` and `full_size_image_url` options.
 #ios.manifest.display_image_url =
 
 # (str) URL pointing to a large icon (512x512px) to be used by iTunes
-# This option should be defined along with app_url and display_image_url options.
+# This option should be defined along with `app_url` and `display_image_url` options.
 #ios.manifest.full_size_image_url =
 
 
@@ -413,44 +428,54 @@ warn_on_root = 1
 # (str) Path to build output (i.e. .apk, .aab, .ipa) storage
 # bin_dir = ./bin
 
-#    -----------------------------------------------------------------------------
-#    List as sections
+#-----------------------------------------------------------------------------
+#   Notes about using this file:
 #
-#    You can define all the "list" as [section:key].
-#    Each line will be considered as a option to the list.
-#    Let's take [app] / source.exclude_patterns.
-#    Instead of doing:
+#   Buildozer uses a variant of Python's ConfigSpec to read this file.
+#   For the basic syntax, including interpolations, see
+#       https://docs.python.org/3/library/configparser.html#supported-ini-file-structure
 #
-#[app]
-#source.exclude_patterns = license,data/audio/.wav,data/images/original/
+#   Warning: Comments cannot be used "inline" - i.e.
+#       [app]
+#       title = My Application # This is not a comment, it is part of the title.
 #
-#    This can be translated into:
+#   Warning: Indented text is treated as a multiline string - i.e.
+#       [app]
+#       title = My Application
+#          package.name = myapp # This is all part of the title.
 #
-#[app:source.exclude_patterns]
-#license
-#data/audio/*.wav
-#data/images/original/*
+#   Buildozer's .spec files have some additional features:
 #
-
-
-#    -----------------------------------------------------------------------------
-#    Profiles
+#   Buildozer supports lists - i.e.
+#       [app]
+#       source.include_exts = py,png,jpg
+#       #                     ^ This is a list.
 #
-#    You can extend section / key with a profile
-#    -----------------------------------------------------------------------------
-#    Profiles
+#       [app:source.include_exts]
+#       py
+#       png
+#       jpg
+#       # ^ This is an alternative syntax for a list.
 #
-#    You can extend section / key with a profile
-#    For example, you want to deploy a demo version of your application without
-#    HD content. You could first change the title to add "(demo)" in the name
-#    and extend the excluded directories to remove the HD content.
+#   Buildozer's option names are case-sensitive, unlike most .ini files.
 #
-#[app@demo]
-#title = My Application (demo)
+#   Buildozer supports overriding options through environment variables.
+#   Name an environment variable as SECTION_OPTION to override a value in a .spec
+#   file.
 #
-#[app:source.exclude_patterns@demo]
-#images/hd/*
+#   Buildozer support overriding options through profiles.
+#   For example, you want to deploy a demo version of your application without
+#   HD content. You could first change the title to add "(demo)" in the name
+#   and extend the excluded directories to remove the HD content.
 #
-#    Then, invoke the command line with the "demo" profile:
+#       [app@demo]
+#       title = My Application (demo)
 #
-#buildozer --profile demo android debug
+#       [app:source.exclude_patterns@demo]
+#       images/hd/*
+#
+#   Then, invoke the command line with the "demo" profile:
+#
+#        buildozer --profile demo android debug
+#
+#   Environment variable overrides have priority over profile overrides.
